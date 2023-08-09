@@ -78,25 +78,25 @@ task("buildOrPublish") {
 
 // TODO: Uncomment for a non template mod!
 publishing {
-	publications {
-		create<MavenPublication>("mavenJava") {
-			groupId = project.property("maven_group").toString()
-			artifactId = project.property("archives_base_name").toString()
-			version = getModVersion()
-
-			from(components.get("java"))
-		}
-	}
-
-	repositories {
-		maven {
-			url = uri("https://mvn.devos.one/${System.getenv()["PUBLISH_SUFFIX"]}/")
-			credentials {
-				username = System.getenv()["MAVEN_USER"]
-				password = System.getenv()["MAVEN_PASS"]
-			}
-		}
-	}
+//	publications {
+//		create<MavenPublication>("mavenJava") {
+//			groupId = project.property("maven_group").toString()
+//			artifactId = project.property("archives_base_name").toString()
+//			version = getModVersion()
+//
+//			from(components.get("java"))
+//		}
+//	}
+//
+//	repositories {
+//		maven {
+//			url = uri("https://mvn.devos.one/${System.getenv()["PUBLISH_SUFFIX"]}/")
+//			credentials {
+//				username = System.getenv()["MAVEN_USER"]
+//				password = System.getenv()["MAVEN_PASS"]
+//			}
+//		}
+//	}
 }
 
 fun getModVersion(): String {
