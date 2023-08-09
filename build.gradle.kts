@@ -10,7 +10,7 @@ plugins {
 }
 
 val archivesBaseName = "${project.property("archives_base_name").toString()}+mc${libs.versions.minecraft.get()}"
-version = project.property("mod_version")!!
+version = getVersion()
 group = project.property("maven_group")!!
 
 repositories {
@@ -95,7 +95,7 @@ publishing {
 	}
 
 fun getVersion(): String {
-	val mod_version = "project.mod_version"
+	val mod_version = project.property("mod_version")
 	val build_id = System.getenv("GITHUB_RUN_NUMBER")
 
 	// CI builds only
