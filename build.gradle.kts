@@ -10,8 +10,8 @@ plugins {
 }
 
 val archivesBaseName = "${project.property("archives_base_name").toString()}+mc${libs.versions.minecraft.get()}"
-version = project.property("mod_version")!!
-group = project.property("maven_group")!!
+version = project.property("mod_version").toString()
+group = project.property("maven_group").toString()
 
 repositories {
 	maven { url = uri("https://api.modrinth.com/maven") }
