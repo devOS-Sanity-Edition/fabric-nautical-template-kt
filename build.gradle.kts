@@ -1,16 +1,17 @@
 import java.net.URI
 
 plugins {
-	id("fabric-loom") version "1.3-SNAPSHOT"
-	id("maven-publish")
+	kotlin("jvm") version "1.9.0"
+
 	id("org.ajoberstar.grgit") version "5.2.0"
+	id("fabric-loom") version "1.3-SNAPSHOT"
+	`maven-publish`
+	java
 }
 
-val grgit = 
-
-val archivesBaseName = "${project.archives_base_name}+mc${libs.versions.minecraft.get()}"
-version = getVersion()
-group = project.maven_group
+val archivesBaseName = "${project.property("archives_base_name").toString()}+mc${libs.versions.minecraft.get()}"
+version = project.property("mod_version")!!
+group = project.property("maven_group")!!
 
 repositories {
 	maven { url = uri("https://api.modrinth.com/maven") }
@@ -18,26 +19,27 @@ repositories {
 }
 
 dependencies {
-	"minecraft"("libs.minecraft")
+	minecraft(libs.minecraft)
 
-	"mappings"("loom.officialMojangMappings()")
-	"modImplementation"("libs.fabric.loader")
+	mappings(loom.officialMojangMappings())
+	modImplementation(libs.fabric.loader)
 
-	"modImplementation"("libs.fabric.api")
-	"modImplementation"("libs.bundles.dependencies")
-	"modLocalRuntime"("libs.bundles.dev.mods")
+	modImplementation(libs.fabric.api)
+	modImplementation(libs.bundles.dependencies)
+	modLocalRuntime(libs.bundles.dev.mods)
 }
 
-task("processResources") {
+tasks.processResources {
 	inputs.property("version", project.version)
 
 	filesMatching("fabric.mod.json") {
-		expand "version": project.version
+		expand(mutableMapOf("version" to project.version))
 	}
 }
 
-tasks.withType(JavaCompile).configureEach {
-	it.options.release = 17
+tasks.withType<JavaCompile>().configureEach {
+	// Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
+	options.release.set(17)
 }
 
 java {
@@ -50,7 +52,7 @@ java {
 	targetCompatibility = JavaVersion.VERSION_17
 }
 
-jar {
+tasks.jar {
 	from("LICENSE") {
 		rename { "${it}_${project.base.archivesName.get()}"}
 	}
@@ -71,27 +73,26 @@ task("buildOrPublish") {
 // TODO: Uncomment for a non template mod!
 publishing {
 	publications {
-		mavenJava(MavenPublication) {
-			groupId = project.maven_group
-			artifactId = project.archives_base_name
-			version = "${project.mod_version}-rev.${grgit.head().abbreviatedId}"
+		create<MavenPublication>("mavenJava") {
+			groupId = project.property("maven_group").toString()
+			artifactId = project.property("archives_base_name").toString()
+			version = "${project.property("archives_base_name").toString()}+mc${libs.versions.minecraft.get()}"
 
 			from(components.get("java"))
 		}
 	}
 
-	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-	repositories {
-		maven {
-			url = uri("https://mvn.devos.one/${System.getenv()["PUBLISH_SUFFIX"]}/")
-			credentials {
-				username = System.getenv()["MAVEN_USER"]
-				password = System.getenv()["MAVEN_PASS"]
+		// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+		repositories {
+			maven {
+				url = uri("https://mvn.devos.one/${System.getenv()["PUBLISH_SUFFIX"]}/")
+				credentials {
+					username = System.getenv()["MAVEN_USER"]
+					password = System.getenv()["MAVEN_PASS"]
+				}
 			}
-			authentication { basic(BasicAuthentication) }
 		}
 	}
-}
 
 fun getVersion(): String {
 	val mod_version = "project.mod_version"
@@ -104,7 +105,7 @@ fun getVersion(): String {
 
 	if (grgit != null) {
 		val head = grgit.head()
-		val id = head.abbreviatedId
+		var id = head.abbreviatedId
 
 		// Flag the build if the build tree is not clean
 		if (!grgit.status().clean) {
