@@ -1,4 +1,4 @@
-package com.example;
+package one.devos.nautical;
 
 import net.fabricmc.api.ClientModInitializer;
 
