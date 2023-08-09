@@ -1,5 +1,3 @@
-import java.net.URI
-
 plugins {
 	kotlin("jvm") version "1.9.0"
 
@@ -10,7 +8,7 @@ plugins {
 }
 
 val archivesBaseName = "${project.property("archives_base_name").toString()}+mc${libs.versions.minecraft.get()}"
-version = getVersion()
+version = getModVersion()
 group = project.property("maven_group")!!
 
 repositories {
@@ -19,20 +17,26 @@ repositories {
 	maven { url = uri("https://maven.parchmentmc.org") }
 }
 
+//All dependencies and their versions are in ./gradle/libs.versions.toml
 dependencies {
+
 	minecraft(libs.minecraft)
 
 	mappings(loom.layered {
 		officialMojangMappings()
 		parchment("org.parchmentmc.data:parchment-1.20.1:2023.06.26@zip")
 	})
+
+	//Fabric
 	modImplementation(libs.fabric.loader)
 	modImplementation(libs.fabric.api)
 
+	//Mods
 	modImplementation(libs.bundles.dependencies)
 	modLocalRuntime(libs.bundles.dev.mods)
 }
 
+// Write the version to the fabric.mod.json
 tasks.processResources {
 	inputs.property("version", project.version)
 
@@ -42,14 +46,10 @@ tasks.processResources {
 }
 
 tasks.withType<JavaCompile>().configureEach {
-	// Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
 	options.release.set(17)
 }
 
 java {
-	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-	// if it is present.
-	// If you remove this line, sources will not be generated.
 	withSourcesJar()
 
 	sourceCompatibility = JavaVersion.VERSION_17
@@ -62,6 +62,8 @@ tasks.jar {
 	}
 }
 
+// This will attempt to publish the mod to the devOS Maven, otherwise it will build the mod locally
+// This is auto run by GitHub Actions
 task("buildOrPublish") {
 	group = "build"
 	var mavenUser = System.getenv().get("MAVEN_USER")
@@ -80,46 +82,47 @@ publishing {
 		create<MavenPublication>("mavenJava") {
 			groupId = project.property("maven_group").toString()
 			artifactId = project.property("archives_base_name").toString()
-			version = "${project.property("archives_base_name").toString()}+mc${libs.versions.minecraft.get()}"
+			version = getModVersion()
 
 			from(components.get("java"))
 		}
 	}
 
-		// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-		repositories {
-			maven {
-				url = uri("https://mvn.devos.one/${System.getenv()["PUBLISH_SUFFIX"]}/")
-				credentials {
-					username = System.getenv()["MAVEN_USER"]
-					password = System.getenv()["MAVEN_PASS"]
-				}
+	repositories {
+		maven {
+			url = uri("https://mvn.devos.one/${System.getenv()["PUBLISH_SUFFIX"]}/")
+			credentials {
+				username = System.getenv()["MAVEN_USER"]
+				password = System.getenv()["MAVEN_PASS"]
 			}
 		}
 	}
+}
 
-fun getVersion(): String {
-	val mod_version = project.property("mod_version")
-	val build_id = System.getenv("GITHUB_RUN_NUMBER")
+fun getModVersion(): String {
+	val modVersion = project.property("mod_version")
+	val buildId = System.getenv("GITHUB_RUN_NUMBER")
 
 	// CI builds only
-	if (build_id != null) {
-		return "${mod_version}+build.${build_id}"
+	if (buildId != null) {
+		return "${modVersion}+build.${buildId}"
 	}
 
+	// If a git repo can't be found, grgit won't work, this non-null check exists so you don't run grgit stuff without a git repo
 	if (grgit != null) {
 		val head = grgit.head()
 		var id = head.abbreviatedId
 
 		// Flag the build if the build tree is not clean
+		// (aka you have uncommitted changes)
 		if (!grgit.status().isClean()) {
 			id += "-dirty"
 		}
-
-		return "${mod_version}+rev.${id}"
+		// ex: 1.0.0+rev.91949fa or 1.0.0+rev.91949fa-dirty
+		return "${modVersion}+rev.${id}"
 	}
 
 	// No tracking information could be found about the build
-	return "${mod_version}+unknown"
+	return "${modVersion}+unknown"
 
 }

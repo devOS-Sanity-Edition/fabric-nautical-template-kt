@@ -5,7 +5,7 @@
 	"name": "Template mod",
 	"description": "This is an example description! Tell everyone what your mod is about!",
 	"authors": [
-		"Me!"
+		"devOS Nautical"
 	],
 	"contact": {
 		"homepage": "https://devos.one/",
@@ -19,11 +19,11 @@
 			"one.devos.nautical.template.TemplateMod"
 		],
 		"client": [
-
+			"one.devos.nautical.template.client.TemplateModClient"
 		]
 	},
 	"mixins": [
-		"modid.mixins.json"
+		"template.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.14.21",
