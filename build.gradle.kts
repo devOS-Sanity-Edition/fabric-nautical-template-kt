@@ -81,7 +81,7 @@ publishing {
 	publications {
 		create<MavenPublication>("mavenJava") {
 			groupId = project.property("maven_group").toString()
-			artifactId = project.property("archives_base_name").toString()
+			artifactId = archivesBaseName
 			version = getModVersion()
 
 			from(components.get("java"))
