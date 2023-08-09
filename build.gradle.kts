@@ -108,7 +108,7 @@ fun getVersion(): String {
 		var id = head.abbreviatedId
 
 		// Flag the build if the build tree is not clean
-		if (!grgit.status().clean) {
+		if (!grgit.status().isClean()) {
 			id += "-dirty"
 		}
 
