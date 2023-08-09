@@ -16,15 +16,19 @@ group = project.property("maven_group")!!
 repositories {
 	maven { url = uri("https://api.modrinth.com/maven") }
 	maven { url = uri("https://maven.terraformersmc.com/") }
+	maven { url = uri("https://maven.parchmentmc.org") }
 }
 
 dependencies {
 	minecraft(libs.minecraft)
 
-	mappings(loom.officialMojangMappings())
+	mappings(loom.layered {
+		officialMojangMappings()
+		parchment("org.parchmentmc.data:parchment-1.20.1:2023.06.26@zip")
+	})
 	modImplementation(libs.fabric.loader)
-
 	modImplementation(libs.fabric.api)
+
 	modImplementation(libs.bundles.dependencies)
 	modLocalRuntime(libs.bundles.dev.mods)
 }
