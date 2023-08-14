@@ -1,10 +1,10 @@
 plugins {
 	kotlin("jvm") version "1.9.0"
-
-	id("org.ajoberstar.grgit") version "5.2.0"
-	id("fabric-loom") version "1.3-SNAPSHOT"
 	`maven-publish`
 	java
+
+	alias(libs.plugins.grgit)
+	alias(libs.plugins.fabric.loom)
 }
 
 val archivesBaseName = "${project.property("archives_base_name").toString()}+mc${libs.versions.minecraft.get()}"

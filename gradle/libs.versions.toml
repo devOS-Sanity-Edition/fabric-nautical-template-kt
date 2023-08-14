@@ -21,9 +21,10 @@ mod_menu = { module = "com.terraformersmc:modmenu", version.ref = "mod_menu_vers
 
 # If you have multiple similar dependencies, you can declare a dependency bundle and reference it on the build script with "libs.bundles.example".
 [bundles]
-fabric_api = ["fabric-api"]
 dev_mods = [ "joml", "sodium" ]
-dependencies = [ "fabric-loader", "fabric-api", "mod_menu" ]
+dependencies = [ "mod_menu" ]
 
 [plugins]
-fabric_loom = { id = "com.fabricmc.loom", version = "1.3-SNAPSHOT" }
+grgit = { id = "org.ajoberstar.grgit", version = "5.2.0"}
+fabric_loom = { id = "fabric-loom", version = "1.3-SNAPSHOT" }
+
