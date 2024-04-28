@@ -1,5 +1,5 @@
 plugins {
-	kotlin("jvm") version "1.9.0"
+	kotlin("jvm") version "1.9.23"
 	`maven-publish`
 	java
 
@@ -12,9 +12,11 @@ version = getModVersion()
 group = project.property("maven_group")!!
 
 repositories {
-	maven { url = uri("https://api.modrinth.com/maven") }
-	maven { url = uri("https://maven.terraformersmc.com/") }
-	maven { url = uri("https://maven.parchmentmc.org") }
+	maven("https://api.modrinth.com/maven")
+	maven("https://maven.terraformersmc.com/")
+	maven("https://maven.parchmentmc.org")
+	maven("https://mvn.devos.one/snapshots")
+	maven("https://maven.quiltmc.org/repository/release/")
 }
 
 //All dependencies and their versions are in ./gradle/libs.versions.toml
@@ -24,7 +26,8 @@ dependencies {
 
 	mappings(loom.layered {
 		officialMojangMappings()
-		parchment("org.parchmentmc.data:parchment-1.20.1:2023.06.26@zip")
+		mappings("${libs.quilt.mappings.get()}:intermediary-v2")
+//		parchment("org.parchmentmc.data:parchment-1.20.1:2023.06.26@zip") // waiting for 1.20.5, bleh
 	})
 
 	//Fabric
@@ -34,6 +37,8 @@ dependencies {
 	//Mods
 	modImplementation(libs.bundles.dependencies)
 	modLocalRuntime(libs.bundles.dev.mods)
+
+	include(modImplementation("gay.asoji:fmw:1.0.0+build.8")!!) // just to avoid the basic long metadata calls
 }
 
 // Write the version to the fabric.mod.json
@@ -46,14 +51,14 @@ tasks.processResources {
 }
 
 tasks.withType<JavaCompile>().configureEach {
-	options.release.set(17)
+	options.release.set(21)
 }
 
 java {
 	withSourcesJar()
 
-	sourceCompatibility = JavaVersion.VERSION_17
-	targetCompatibility = JavaVersion.VERSION_17
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
 }
 
 tasks.jar {
