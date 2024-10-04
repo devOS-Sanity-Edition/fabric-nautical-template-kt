@@ -1,5 +1,5 @@
 plugins {
-	kotlin("jvm") version "1.9.23"
+	kotlin("jvm") version "2.0.20"
 	`maven-publish`
 	java
 
@@ -26,13 +26,14 @@ dependencies {
 
 	mappings(loom.layered {
 		officialMojangMappings()
-		mappings("${libs.quilt.mappings.get()}:intermediary-v2")
-//		parchment("org.parchmentmc.data:parchment-1.20.1:2023.06.26@zip") // waiting for 1.20.5, bleh
+		parchment("org.parchmentmc.data:parchment-1.21:2024.07.28@zip")
+//		mappings("${libs.quilt.mappings.get()}:intermediary-v2") // if you wanna deal with it be my guest, im not - asoji
 	})
 
 	//Fabric
 	modImplementation(libs.fabric.loader)
 	modImplementation(libs.fabric.api)
+	modImplementation(libs.fabric.language.kotlin)
 
 	//Mods
 	modImplementation(libs.bundles.dependencies)
@@ -114,13 +115,12 @@ fun getModVersion(): String {
 	}
 
 	// If a git repo can't be found, grgit won't work, this non-null check exists so you don't run grgit stuff without a git repo
-	if (grgit != null) {
-		val head = grgit.head()
-		var id = head.abbreviatedId
+	if (grgitService.service.get().grgit.head() != null) {
+		var id = grgitService.service.get().grgit.head().abbreviatedId ?: "NO-COMMIT-HASH"
 
 		// Flag the build if the build tree is not clean
 		// (aka you have uncommitted changes)
-		if (!grgit.status().isClean()) {
+		if (!grgitService.service.get().grgit.status().isClean()) {
 			id += "-dirty"
 		}
 		// ex: 1.0.0+rev.91949fa or 1.0.0+rev.91949fa-dirty

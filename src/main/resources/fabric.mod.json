@@ -8,28 +8,38 @@
 		"devOS: Sanity Edition",
 		"Team Nautical"
 	],
+	"contributors": [
+		"Put your GitHub username here!"
+	],
 	"contact": {
 		"homepage": "https://devos.one/",
-		"sources": "https://github.com/devOS-Sanity-Edition/fabric-nautical-template"
+		"sources": "https://github.com/devOS-Sanity-Edition/fabric-nautical-template-kt"
 	},
 	"license": "MIT",
 	"icon": "assets/template/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"one.devos.nautical.template.TemplateMod"
+			{
+				"adapter": "kotlin",
+				"value": "one.devos.nautical.template.TemplateMod"
+			}
 		],
 		"client": [
-			"one.devos.nautical.template.client.TemplateModClient"
+			{
+				"adapter": "kotlin",
+				"value": "one.devos.nautical.template.client.TemplateModClient"
+			}
 		]
 	},
 	"mixins": [
 		"template.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.15.10",
-		"minecraft": "~1.20.5",
+		"fabricloader": ">=0.16.5",
+		"minecraft": "1.21.1",
 		"java": ">=21",
-		"fabric-api": "*"
+		"fabric-api": "*",
+		"fabric-language-kotlin": "*"
 	}
 }
