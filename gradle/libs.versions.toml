@@ -2,11 +2,11 @@
 # The latest versions are available at https://fabricmc.net/develop
 minecraft = "1.21.1"
 #quilt_mappings = "1.21+build.18"
-fabric_loader = "0.16.5"
-fabric_api = "0.105.0+1.21.1"
-fabric_language_kotlin = "1.12.2+kotlin.2.0.20"
-sodium_version = "mc1.21-0.6.0-beta.2-fabric"
-mod_menu_version = "11.0.2"
+fabric_loader = "0.17.2"
+fabric_api = "0.116.6+1.21.1"
+fabric_language_kotlin = "1.13.5+kotlin.2.2.10"
+sodium_version = "mc1.21.1-0.6.13-fabric"
+mod_menu_version = "11.0.3"
 joml_version = "1.10.5"
 
 [libraries]
@@ -25,6 +25,6 @@ dev_mods = [ "joml", "sodium" ]
 dependencies = [ "mod_menu" ]
 
 [plugins]
-grgit = { id = "org.ajoberstar.grgit", version = "5.2.2"}
-fabric_loom = { id = "fabric-loom", version = "1.7-SNAPSHOT" }
+grgit = { id = "org.ajoberstar.grgit", version = "5.3.2"}
+fabric_loom = { id = "fabric-loom", version = "1.11-SNAPSHOT" }
 

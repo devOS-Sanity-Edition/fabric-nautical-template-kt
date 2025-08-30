@@ -1,5 +1,5 @@
 plugins {
-	kotlin("jvm") version "2.0.20"
+	kotlin("jvm") version "2.2.10"
 	`maven-publish`
 	java
 
@@ -26,8 +26,7 @@ dependencies {
 
 	mappings(loom.layered {
 		officialMojangMappings()
-		parchment("org.parchmentmc.data:parchment-1.21:2024.07.28@zip")
-//		mappings("${libs.quilt.mappings.get()}:intermediary-v2") // if you wanna deal with it be my guest, im not - asoji
+		parchment("org.parchmentmc.data:parchment-1.21.1:2024.11.17@zip")
 	})
 
 	//Fabric
