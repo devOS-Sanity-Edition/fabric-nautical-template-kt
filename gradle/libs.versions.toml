@@ -1,17 +1,15 @@
 [versions]
 # The latest versions are available at https://fabricmc.net/develop
-minecraft = "1.21.1"
-#quilt_mappings = "1.21+build.18"
+minecraft = "1.21.8"
 fabric_loader = "0.17.2"
-fabric_api = "0.116.6+1.21.1"
+fabric_api = "0.133.0+1.21.8"
 fabric_language_kotlin = "1.13.5+kotlin.2.2.10"
-sodium_version = "mc1.21.1-0.6.13-fabric"
-mod_menu_version = "11.0.3"
+sodium_version = "mc1.21.6-0.6.13-fabric"
+mod_menu_version = "15.0.0-beta.3"
 joml_version = "1.10.5"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
-#quilt_mappings = { module = "org.quiltmc:quilt-mappings", version.ref = "quilt_mappings" }
 fabric_loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_loader" }
 fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric_api" }
 fabric_language_kotlin = { module = "net.fabricmc:fabric-language-kotlin", version.ref = "fabric_language_kotlin" }
