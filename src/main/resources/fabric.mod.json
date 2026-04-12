@@ -30,16 +30,22 @@
 				"adapter": "kotlin",
 				"value": "one.devos.nautical.template.client.TemplateModClient"
 			}
+		],
+		"fabric-datagen": [
+			{
+				"adapter": "kotlin",
+				"value": "one.devos.nautical.template.datagen.TemplateModDataGenerator"
+			}
 		]
 	},
 	"mixins": [
 		"template.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.17.2",
-		"minecraft": "1.21.1",
-		"java": ">=21",
-		"fabric-api": "*",
-		"fabric-language-kotlin": "*"
+		"fabric-api": "${fabric_api}",
+		"fabricloader": "${fabric_loader}",
+		"fabric-language-kotlin": "${fabric_language_kotlin}",
+		"minecraft": "${minecraft}",
+		"java": "${java}"
 	}
 }
