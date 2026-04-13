@@ -4,8 +4,9 @@ minecraft = "1.20.1"
 fabric-loader = "0.19.1"
 fabric-api = "0.92.7+1.20.1"
 fabric-language-kotlin = "1.13.10+kotlin.2.3.20"
-fabric-loom = "1.16-SNAPSHOT"
+fabric-loom = "1.10-SNAPSHOT"
 modmenu = "7.2.2"
+sodium = "mc1.20.1-0.5.13-fabric"
 
 # You can access these by refreshing Gradle everytime you modify these, and then referencing them in build.gradle.kts as
 # `libs.libraryname`, if it has a hyphen or underscore, then `libs.thing.thing`
@@ -16,15 +17,16 @@ fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = 
 fabric-api = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabric-api" }
 fabric-language-kotlin = { group = "net.fabricmc", name = "fabric-language-kotlin", version.ref = "fabric-language-kotlin" }
 modmenu = { group = "com.terraformersmc", name = "modmenu", version.ref = "modmenu" }
+sodium = { group = "maven.modrinth", name = "sodium", version.ref = "sodium" }
 
 # If you have multiple similar dependencies, you can declare a dependency bundle and reference it on the build script with "libs.bundles.example".
 [bundles]
 dev-mods = [
-#    "sodium"
+    "sodium"
 ]
 dependencies = [
     "modmenu"
 ]
 
 [plugins]
-fabric-loom = { id = "net.fabricmc.fabric-loom-remap", version.ref = "fabric-loom" }
+fabric-loom = { id = "fabric-loom", version.ref = "fabric-loom" }
