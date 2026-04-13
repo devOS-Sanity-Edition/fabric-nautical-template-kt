@@ -29,7 +29,7 @@ dependencies {
 
 	mappings(loom.layered {
 		officialMojangMappings()
-		parchment("org.parchmentmc.data:parchment-1.21.1:2024.11.17@zip")
+		parchment("org.parchmentmc.data:parchment-1.20.1:2023.09.03@zip")
 	})
 
 	modImplementation(libs.fabric.loader)
@@ -103,7 +103,11 @@ loom {
 java {
 	withSourcesJar()
 
-	toolchain.languageVersion = JavaLanguageVersion.of(21)
+	// SET YOUR IDE JAVA RUNTIME TO USE JAVA 21, THIS WILL STILL COMPILE FOR JAVA 17, BLAME LOOM.
+	//
+	// FILE [OR GEAR ICON] -> PROJECT STRUCTURE -> SDK -> SELECT THE DROPDOWN -> ADD SDK -> INSTALL JETBRAINS RUNTIME 21
+	// FILE -> SETTINGS -> BUILD, EXECUTION, DEPLOYMENT -> BUILD TOOLS -> GRADLE -> MAKE SURE GRADLE JVM USES JBR-21
+	toolchain.languageVersion = JavaLanguageVersion.of(17)
 }
 
 // Write the version to the fabric.mod.json
