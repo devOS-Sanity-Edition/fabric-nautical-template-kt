@@ -1,12 +1,12 @@
 # The latest versions are available at https://fabricmc.net/develop
 [versions]
-minecraft = "1.21.1"
+minecraft = "26.1.2"
 fabric-loader = "0.19.1"
-fabric-api = "0.116.10+1.21.1"
+fabric-api = "0.145.4+26.1.2"
 fabric-language-kotlin = "1.13.10+kotlin.2.3.20"
 fabric-loom = "1.16-SNAPSHOT"
-sodium = "mc1.21.1-0.6.13-fabric"
-modmenu = "11.0.4"
+sodium = "mc26.1.1-0.8.9-fabric"
+modmenu = "18.0.0-alpha.8"
 
 # You can access these by refreshing Gradle everytime you modify these, and then referencing them in build.gradle.kts as
 # `libs.libraryname`, if it has a hyphen or underscore, then `libs.thing.thing`
@@ -29,4 +29,4 @@ dependencies = [
 ]
 
 [plugins]
-fabric-loom = { id = "net.fabricmc.fabric-loom-remap", version.ref = "fabric-loom" }
+fabric-loom = { id = "net.fabricmc.fabric-loom", version.ref = "fabric-loom" }

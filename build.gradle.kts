@@ -18,7 +18,6 @@ val javaVersion = rootProject.java.sourceCompatibility.majorVersion
 repositories {
 	maven("https://api.modrinth.com/maven")
 	maven("https://maven.terraformersmc.com/releases")
-	maven("https://maven.parchmentmc.org")
 	maven("https://mvn.devos.one/snapshots")
 }
 
@@ -27,20 +26,15 @@ dependencies {
 
 	minecraft(libs.minecraft)
 
-	mappings(loom.layered {
-		officialMojangMappings()
-		parchment("org.parchmentmc.data:parchment-1.21.1:2024.11.17@zip")
-	})
-
-	modImplementation(libs.fabric.loader)
-	modImplementation(libs.fabric.api)
-	modImplementation(libs.fabric.language.kotlin)
+	implementation(libs.fabric.loader)
+	implementation(libs.fabric.api)
+	implementation(libs.fabric.language.kotlin)
 
 	//Mods
-	modImplementation(libs.bundles.dependencies)
-	modLocalRuntime(libs.bundles.dev.mods)
+	implementation(libs.bundles.dependencies)
+	localRuntime(libs.bundles.dev.mods)
 
-	include(modImplementation("gay.asoji:fmw:1.0.0+build.8")!!) // just to avoid the basic long metadata calls
+	include(implementation("gay.asoji:fmw:1.0.0+build.8")!!) // just to avoid the basic long metadata calls
 }
 
 sourceSets {
@@ -103,7 +97,7 @@ loom {
 java {
 	withSourcesJar()
 
-	toolchain.languageVersion = JavaLanguageVersion.of(21)
+	toolchain.languageVersion = JavaLanguageVersion.of(25)
 }
 
 // Write the version to the fabric.mod.json
