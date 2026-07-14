@@ -45,15 +45,15 @@ jobs:
         if: ${{ github.event.inputs.type == 'snapshot' }}
         run: >-
           ./gradlew publishAllPublicationsToDevOsSnapshotsRepository
-          -PdevOsSnapshotsUsername="${{ secrets.MAVEN_USER }}"
-          -PdevOsSnapshotsPassword="${{ secrets.MAVEN_PASS }}"
+          -PdevOSSnapshotsUsername="${{ secrets.MAVEN_USER }}"
+          -PdevOSSnapshotsPassword="${{ secrets.MAVEN_PASS }}"
 
       - name: Publish Release
         if: ${{ github.event.inputs.type == 'release' }}
         run: >-
           ./gradlew publishAllPublicationsToDevOsReleasesRepository
-          -PdevOsReleasesUsername="${{ secrets.MAVEN_USER }}"
-          -PdevOsReleasesPassword="${{ secrets.MAVEN_PASS }}"
+          -PdevOSReleasesUsername="${{ secrets.MAVEN_USER }}"
+          -PdevOSReleasesPassword="${{ secrets.MAVEN_PASS }}"
 
       - name: Capture Build Artifacts
         uses: actions/upload-artifact@v7
